@@ -23,8 +23,7 @@ fext  = os.path.splitext(fname)[1]
 
 if fext in ['.eps','.ps','.svg']: 
 	os.system("cd %s; convert -density 300 %s -size 1024x840 %s.png" % (dir, fname, fbase))
-	fname="%s.png" % fname
-	os.system("echo %s %s %s " %(fbase, fext, fname))
+	fname="%s.png" % fbase
 
 # commit the file to the repo and push to github
 os.system("cd %s; git checkout gh-pages; git add %s; git commit -am 'Added %s'; git push origin gh-pages;" % (dir, fname, fname) )

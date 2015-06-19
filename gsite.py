@@ -5,7 +5,7 @@ usage:
 	python /path/to/repo/gsite.py image_name
 '''
 
-import os, sys
+import os, os.path, sys
 
 # file you want to host
 fname = sys.argv[1]
@@ -16,6 +16,14 @@ print dir
 
 # copy the file to the git repo
 os.system("cp %s %s" % (fname, dir))
+
+# if the file is an eps, convert it to png
+fbase = os.path.splitext(fname)[0]
+fext  = os.path.splitext(fname)[1]
+
+if fext in ['.eps','.ps','.svg']: 
+	os.system("cd %s; convert -density 300 %s -size 1024x840 %s.png" % (dir, fname, fbase))
+	fname="%s.png" %fname
 
 # commit the file to the repo and push to github
 os.system("cd %s; git checkout gh-pages; git add %s; git commit -am 'Added %s'; git push origin gh-pages;" % (dir, fname, fname) )
